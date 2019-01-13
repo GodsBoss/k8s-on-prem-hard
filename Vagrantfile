@@ -18,11 +18,17 @@ Vagrant.configure("2") do |config|
         "ca.pem", "ca-key.pem",
         "kubernetes-key.pem",
         "kubernetes.pem",
+        "etcd",
+        "etcdctl",
       ].each do |f|
         config.vm.provision "file", source: "./tmp/#{f}", destination: "$HOME/#{f}"
       end
 
       config.vm.provision "file", source: "./encryption-config.yaml", destination: "$HOME/encryption-config.yaml"
+
+      config.vm.provision "file", source: "./provision/#{hostname}-etcd.service", destination: "$HOME/etcd.service"
+
+      config.vm.provision "shell", path: "./provision/etcd.sh"
 
     end
   end
