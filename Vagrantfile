@@ -88,6 +88,7 @@ Vagrant.configure("2") do |config|
         "k8swrk#{i}-kubelet.service" => "kubelet.service",
         "kube-proxy.service" => "kube-proxy.service",
         "containerd.service" => "containerd.service",
+        "crictl.yaml" => "crictl.yaml",
       }.each do |src, dst|
         node.vm.provision "file", source: "./provision/#{src}", destination: "$HOME/#{dst}"
       end
