@@ -73,8 +73,23 @@ Vagrant.configure("2") do |config|
         "k8swrk#{i}.pem",
         "k8swrk#{i}.kubeconfig",
         "kube-proxy.kubeconfig",
+        "cni-plugins.tgz",
+        "containerd.tar.gz",
+        "runc",
+        "crictl",
+        "kubectl",
+        "kube-proxy",
+        "kubelet",
       ].each do |f|
         config.vm.provision "file", source: "./tmp/#{f}", destination: "$HOME/#{f}"
+      end
+
+      {
+        "k8swrk#{i}-kubelet.service" => "$HOME/kubelet.service",
+        "kube-proxy.service" => "$HOME/kube-proxy.service",
+        "containerd.service" => "$HOME/containerd.service",
+      }.each do |src, dst|
+        config.vm.provision "file", source: "./provision/#{src}", destination: "$HOME/#{dst}"
       end
 
     end
