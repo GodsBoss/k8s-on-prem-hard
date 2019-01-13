@@ -73,6 +73,9 @@ Vagrant.configure("2") do |config|
       end
 
       config.vm.provision "shell", path: "dns/hosts.sh"
+
+      config.vm.provision "file", source: "./provision/haproxy.cfg-addendum", destination: "$HOME/haproxy.cfg-addendum"
+      config.vm.provision "shell", path: "provision/haproxy.sh"
     end
   end
 end
