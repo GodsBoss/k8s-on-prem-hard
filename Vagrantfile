@@ -29,6 +29,9 @@ Vagrant.configure("2") do |config|
       {
         "encryption-config.yaml" => "encryption-config.yaml",
         "#{hostname}-etcd.service" => "etcd.service",
+        "#{hostname}-kube-apiserver.service" => "kube-apiserver.service",
+        "kube-controller-manager.service" => "kube-controller-manager.service",
+        "kube-scheduler.service" => "kube-scheduler.service",
       }.each do |src, dst|
         config.vm.provision "file", source: "./provision/#{src}", destination: "$HOME/#{dst}"
       end
