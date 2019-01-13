@@ -39,6 +39,7 @@ Vagrant.configure("2") do |config|
       [
         "hosts.sh",
         "etcd.sh",
+        "master.sh",
       ].each do |f|
         config.vm.provision "shell", path: "./provision/#{f}"
       end
