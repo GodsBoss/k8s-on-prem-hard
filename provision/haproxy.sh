@@ -10,5 +10,5 @@ echo '' >> /etc/haproxy/haproxy.cfg
 cat /home/vagrant/haproxy.cfg-addendum >> /etc/haproxy/haproxy.cfg
 
 # Start service
-service haproxy enable
-service haproxy start
+systemctl enable haproxy
+systemctl restart haproxy
