@@ -12,6 +12,7 @@ Vagrant.configure("2") do |config|
         v.name = "K8s Control #{i}"
       end
 
+      config.vm.provision "shell", path: "dns/hosts.sh"
     end
   end
 
@@ -26,6 +27,8 @@ Vagrant.configure("2") do |config|
       config.vm.provider "virtualbox" do |v|
         v.name = "K8s Worker #{i}"
       end
+
+      config.vm.provision "shell", path: "dns/hosts.sh"
     end
   end
 
@@ -40,6 +43,8 @@ Vagrant.configure("2") do |config|
       config.vm.provider "virtualbox" do |v|
         v.name = "K8s Cluster Proxy #{i}"
       end
+
+      config.vm.provision "shell", path: "dns/hosts.sh"
     end
   end
 end
