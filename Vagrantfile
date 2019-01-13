@@ -22,6 +22,8 @@ Vagrant.configure("2") do |config|
         config.vm.provision "file", source: "./tmp/#{f}", destination: "$HOME/#{f}"
       end
 
+      config.vm.provision "file", source: "./encryption-config.yaml", destination: "$HOME/encryption-config.yaml"
+
     end
   end
 
