@@ -12,7 +12,7 @@ Vagrant.configure("2") do |config|
         v.name = "K8s Control #{i}"
       end
 
-      config.vm.provision "shell", path: "dns/hosts.sh"
+      config.vm.provision "shell", path: "provision/hosts.sh"
 
       [
         "ca.pem", "ca-key.pem",
@@ -49,7 +49,7 @@ Vagrant.configure("2") do |config|
         v.name = "K8s Worker #{i}"
       end
 
-      config.vm.provision "shell", path: "dns/hosts.sh"
+      config.vm.provision "shell", path: "provision/hosts.sh"
 
       [
         "ca.pem",
@@ -76,7 +76,7 @@ Vagrant.configure("2") do |config|
         v.name = "K8s Cluster Proxy #{i}"
       end
 
-      config.vm.provision "shell", path: "dns/hosts.sh"
+      config.vm.provision "shell", path: "provision/hosts.sh"
 
       config.vm.provision "file", source: "./provision/haproxy.cfg-addendum", destination: "$HOME/haproxy.cfg-addendum"
       config.vm.provision "shell", path: "provision/haproxy.sh"
