@@ -7,3 +7,4 @@ WARNING!
 --------
 
 This setup is insecure. It uses Vagant to create the machines and does not remove the sudo-capable, passwordless default user!
+Also, the encryption key is hardcoded.
