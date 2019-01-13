@@ -12,8 +12,6 @@ Vagrant.configure("2") do |config|
         v.name = "K8s Control #{i}"
       end
 
-      config.vm.provision "shell", path: "provision/hosts.sh"
-
       [
         "ca.pem", "ca-key.pem",
         "kubernetes-key.pem",
@@ -35,7 +33,12 @@ Vagrant.configure("2") do |config|
         config.vm.provision "file", source: "./provision/#{src}", destination: "$HOME/#{dst}"
       end
 
-      config.vm.provision "shell", path: "./provision/etcd.sh"
+      [
+        "hosts.sh",
+        "etcd.sh",
+      ].each do |f|
+        config.vm.provision "shell", path: "./provision/#{f}"
+      end
 
     end
   end
