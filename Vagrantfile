@@ -14,7 +14,11 @@ Vagrant.configure("2") do |config|
 
       config.vm.provision "shell", path: "dns/hosts.sh"
 
-      ["ca.pem", "ca-key.pem", "kubernetes-key.pem", "kubernetes.pem"].each do |f|
+      [
+        "ca.pem", "ca-key.pem",
+        "kubernetes-key.pem",
+        "kubernetes.pem",
+      ].each do |f|
         config.vm.provision "file", source: "./tmp/#{f}", destination: "$HOME/#{f}"
       end
 
@@ -35,7 +39,11 @@ Vagrant.configure("2") do |config|
 
       config.vm.provision "shell", path: "dns/hosts.sh"
 
-      ["ca.pem", "k8swrk#{i}-key.pem", "k8swrk#{i}.pem"].each do |f|
+      [
+        "ca.pem",
+        "k8swrk#{i}-key.pem",
+        "k8swrk#{i}.pem",
+      ].each do |f|
         config.vm.provision "file", source: "./tmp/#{f}", destination: "$HOME/#{f}"
       end
 
