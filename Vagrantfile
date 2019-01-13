@@ -43,6 +43,8 @@ Vagrant.configure("2") do |config|
         "ca.pem",
         "k8swrk#{i}-key.pem",
         "k8swrk#{i}.pem",
+        "k8swrk#{i}.kubeconfig",
+        "kube-proxy.kubeconfig",
       ].each do |f|
         config.vm.provision "file", source: "./tmp/#{f}", destination: "$HOME/#{f}"
       end
