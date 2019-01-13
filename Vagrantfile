@@ -28,9 +28,12 @@ Vagrant.configure("2") do |config|
         config.vm.provision "file", source: "./tmp/#{f}", destination: "$HOME/#{f}"
       end
 
-      config.vm.provision "file", source: "./provision/encryption-config.yaml", destination: "$HOME/encryption-config.yaml"
-
-      config.vm.provision "file", source: "./provision/#{hostname}-etcd.service", destination: "$HOME/etcd.service"
+      {
+        "encryption-config.yaml" => "encryption-config.yaml",
+        "#{hostname}-etcd.service" => "etcd.service",
+      }.each do |src, dst|
+        config.vm.provision "file", source: "./provision/#{src}", destination: "$HOME/#{dst}"
+      end
 
       config.vm.provision "shell", path: "./provision/etcd.sh"
 
