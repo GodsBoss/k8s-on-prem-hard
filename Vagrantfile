@@ -20,6 +20,10 @@ Vagrant.configure("2") do |config|
         "kubernetes.pem",
         "etcd",
         "etcdctl",
+        "kube-apiserver",
+        "kube-controller-manager",
+        "kube-scheduler",
+        "kubectl",
       ].each do |f|
         config.vm.provision "file", source: "./tmp/#{f}", destination: "$HOME/#{f}"
       end
