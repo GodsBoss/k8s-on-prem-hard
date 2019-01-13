@@ -32,6 +32,8 @@ Vagrant.configure("2") do |config|
         "#{hostname}-kube-apiserver.service" => "kube-apiserver.service",
         "kube-controller-manager.service" => "kube-controller-manager.service",
         "kube-scheduler.service" => "kube-scheduler.service",
+        "kube-apiserver-to-kubelet-role.yaml" => "kube-apiserver-to-kubelet-role.yaml",
+        "kube-apiserver-to-kubelet-binding.yaml" => "kube-apiserver-to-kubelet-binding.yaml",
       }.each do |src, dst|
         config.vm.provision "file", source: "./provision/#{src}", destination: "$HOME/#{dst}"
       end
@@ -42,6 +44,10 @@ Vagrant.configure("2") do |config|
         "master.sh",
       ].each do |f|
         config.vm.provision "shell", path: "./provision/#{f}"
+      end
+
+      if i == 3 then # Ugh! There has to be a better way!
+        config.vm.provision "shell", path: "./provision/rbac.sh"
       end
 
     end
