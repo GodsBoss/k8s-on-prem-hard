@@ -8,7 +8,7 @@ Vagrant.configure("2") do |config|
       node.vm.hostname = hostname
       node.vm.network "private_network", ip: "10.32.2.#{10+i}"
 
-      config.vm.provider "virtualbox" do |v|
+      node.vm.provider "virtualbox" do |v|
         v.name = "K8s Control #{i}"
       end
 
@@ -23,7 +23,7 @@ Vagrant.configure("2") do |config|
         "kube-scheduler",
         "kubectl",
       ].each do |f|
-        config.vm.provision "file", source: "./tmp/#{f}", destination: "$HOME/#{f}"
+        node.vm.provision "file", source: "./tmp/#{f}", destination: "$HOME/#{f}"
       end
 
       {
@@ -35,7 +35,7 @@ Vagrant.configure("2") do |config|
         "kube-apiserver-to-kubelet-role.yaml" => "kube-apiserver-to-kubelet-role.yaml",
         "kube-apiserver-to-kubelet-binding.yaml" => "kube-apiserver-to-kubelet-binding.yaml",
       }.each do |src, dst|
-        config.vm.provision "file", source: "./provision/#{src}", destination: "$HOME/#{dst}"
+        node.vm.provision "file", source: "./provision/#{src}", destination: "$HOME/#{dst}"
       end
 
       [
@@ -43,11 +43,11 @@ Vagrant.configure("2") do |config|
         "etcd.sh",
         "master.sh",
       ].each do |f|
-        config.vm.provision "shell", path: "./provision/#{f}"
+        node.vm.provision "shell", path: "./provision/#{f}"
       end
 
       if i == 3 then # Ugh! There has to be a better way!
-        config.vm.provision "shell", path: "./provision/rbac.sh"
+        node.vm.provision "shell", path: "./provision/rbac.sh"
       end
 
     end
@@ -61,11 +61,11 @@ Vagrant.configure("2") do |config|
       node.vm.hostname = hostname
       node.vm.network "private_network", ip: "10.32.2.#{30+i}"
 
-      config.vm.provider "virtualbox" do |v|
+      node.vm.provider "virtualbox" do |v|
         v.name = "K8s Worker #{i}"
       end
 
-      config.vm.provision "shell", path: "provision/hosts.sh"
+      node.vm.provision "shell", path: "provision/hosts.sh"
 
       [
         "ca.pem",
@@ -81,7 +81,7 @@ Vagrant.configure("2") do |config|
         "kube-proxy",
         "kubelet",
       ].each do |f|
-        config.vm.provision "file", source: "./tmp/#{f}", destination: "$HOME/#{f}"
+        node.vm.provision "file", source: "./tmp/#{f}", destination: "$HOME/#{f}"
       end
 
       {
@@ -89,7 +89,7 @@ Vagrant.configure("2") do |config|
         "kube-proxy.service" => "$HOME/kube-proxy.service",
         "containerd.service" => "$HOME/containerd.service",
       }.each do |src, dst|
-        config.vm.provision "file", source: "./provision/#{src}", destination: "$HOME/#{dst}"
+        node.vm.provision "file", source: "./provision/#{src}", destination: "$HOME/#{dst}"
       end
 
     end
@@ -103,14 +103,14 @@ Vagrant.configure("2") do |config|
       node.vm.hostname = hostname
       node.vm.network "private_network", ip: "10.32.2.#{20+i}"
 
-      config.vm.provider "virtualbox" do |v|
+      node.vm.provider "virtualbox" do |v|
         v.name = "K8s Cluster Proxy #{i}"
       end
 
-      config.vm.provision "shell", path: "provision/hosts.sh"
+      node.vm.provision "shell", path: "provision/hosts.sh"
 
-      config.vm.provision "file", source: "./provision/haproxy.cfg-addendum", destination: "$HOME/haproxy.cfg-addendum"
-      config.vm.provision "shell", path: "provision/haproxy.sh"
+      node.vm.provision "file", source: "./provision/haproxy.cfg-addendum", destination: "$HOME/haproxy.cfg-addendum"
+      node.vm.provision "shell", path: "provision/haproxy.sh"
     end
   end
 end
