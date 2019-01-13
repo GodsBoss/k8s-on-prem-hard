@@ -93,6 +93,8 @@ Vagrant.configure("2") do |config|
         node.vm.provision "file", source: "./provision/#{src}", destination: "$HOME/#{dst}"
       end
 
+      node.vm.provision "shell", path: "provision/worker.sh", args: ["k8swrk#{i}"]
+
     end
   end
 
