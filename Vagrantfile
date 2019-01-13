@@ -1,5 +1,24 @@
 Vagrant.configure("2") do |config|
 
+  # Load balancer
+  (1..1).each do |i| # No loop needed, but do it anyways
+    hostname = "haprx#{i}"
+    config.vm.define hostname do |node|
+      node.vm.box = "ubuntu/xenial64"
+      node.vm.hostname = hostname
+      node.vm.network "private_network", ip: "10.32.2.#{20+i}"
+
+      node.vm.provider "virtualbox" do |v|
+        v.name = "K8s Cluster Proxy #{i}"
+      end
+
+      node.vm.provision "shell", path: "provision/hosts.sh"
+
+      node.vm.provision "file", source: "./provision/haproxy.cfg-addendum", destination: "$HOME/haproxy.cfg-addendum"
+      node.vm.provision "shell", path: "provision/haproxy.sh"
+    end
+  end
+
   # Control plane
   (1..3).each do |i|
     hostname = "k8sctl#{i}"
@@ -95,25 +114,6 @@ Vagrant.configure("2") do |config|
 
       node.vm.provision "shell", path: "provision/worker.sh", args: ["k8swrk#{i}"]
 
-    end
-  end
-
-  # Load balancer
-  (1..1).each do |i| # No loop needed, but do it anyways
-    hostname = "haprx#{i}"
-    config.vm.define hostname do |node|
-      node.vm.box = "ubuntu/xenial64"
-      node.vm.hostname = hostname
-      node.vm.network "private_network", ip: "10.32.2.#{20+i}"
-
-      node.vm.provider "virtualbox" do |v|
-        v.name = "K8s Cluster Proxy #{i}"
-      end
-
-      node.vm.provision "shell", path: "provision/hosts.sh"
-
-      node.vm.provision "file", source: "./provision/haproxy.cfg-addendum", destination: "$HOME/haproxy.cfg-addendum"
-      node.vm.provision "shell", path: "provision/haproxy.sh"
     end
   end
 end
