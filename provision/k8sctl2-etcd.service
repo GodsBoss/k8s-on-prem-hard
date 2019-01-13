@@ -18,7 +18,7 @@ ExecStart=/usr/local/bin/etcd \
   --listen-client-urls https://10.32.2.12:2379,http://127.0.0.1:2379 \
   --advertise-client-urls https://10.32.2.12:2379 \
   --initial-cluster-token etcd-cluster-0 \
-  --initial-cluster k8sctl1=https://10.32.2.12:2380,k8sctl2=https://10.32.2.12:2380,k8sctl3=https://10.32.2.13:2380 \
+  --initial-cluster k8sctl1=https://10.32.2.11:2380,k8sctl2=https://10.32.2.12:2380,k8sctl3=https://10.32.2.13:2380 \
   --initial-cluster-state new \
   --data-dir=/var/lib/etcd
 Restart=on-failure
